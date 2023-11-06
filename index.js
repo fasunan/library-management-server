@@ -38,14 +38,29 @@ async function run() {
       res.send(result);
     });
 
+    // find book by category name
+    app.get("/books/:category", async (req, res) => {
+      const name = req.params.category;
+      const query = { category: name };
+      const cursor = bookDBCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // add books by category from add book
 
-    // app.post('/addBook', async(req, res)=>{
-
-    // })
-    app.post("/addBook", async (req, res) => {
+    app.post("/books", async (req, res) => {
       const allBooks = req.body;
+      console.log(allBooks);
       const result = await bookDBCollection.insertOne(allBooks);
+      res.send(result);
+    });
+
+    // get book for UI which i added
+
+    app.get("/books", async (req, res) => {
+      const cursor = bookDBCollection.find();
+      const result = await cursor.toArray();
       res.send(result);
     });
 
