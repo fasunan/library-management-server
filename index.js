@@ -31,6 +31,8 @@ async function run() {
 
     const booksCollection = client.db("booksCategory").collection("categories");
     const bookDBCollection = client.db("booksDB").collection("books");
+    const BorrowedCollection = client.db('borrowDB').collection('borrow');
+
     // book category at home
     app.get("/categories", async (req, res) => {
       const cursor = booksCollection.find();
@@ -70,6 +72,29 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // borrowed books related
+
+    app.post('/seeDetails', async (req, res) => {
+      const borrowBook = req.body;
+      console.log(borrowBook)
+      const result = await BorrowedCollection.insertOne(borrowBook);
+      res.send(result);
+    });
+
+    app.get('/seeDetails', async (req, res) => {
+      const cursor = BorrowedCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+    // app.delete('/seeDetails/:id', async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id:id };
+    //   const result = await BorrowedCollection.deleteOne(query);
+    //   res.send(result);
+     
+    // })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
