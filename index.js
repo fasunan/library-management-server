@@ -61,7 +61,7 @@ async function run() {
     // add books by category from add book
     app.post("/books", async (req, res) => {
       const allBooks = req.body;
-      console.log(allBooks);
+      // console.log(allBooks);
       const result = await bookDBCollection.insertOne(allBooks);
       res.send(result);
     });
@@ -88,13 +88,14 @@ async function run() {
       res.send(result);
     })
 
-    // app.delete('/seeDetails/:id', async (req, res) => {
-    //   const id = req.params.id;
-    //   const query = { _id:id };
-    //   const result = await BorrowedCollection.deleteOne(query);
-    //   res.send(result);
+    app.delete('/seeDetails/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id:new ObjectId (id) };
+      const result = await BorrowedCollection.deleteOne(query);
+      res.send(result);
+      // console.log(result)
      
-    // })
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
