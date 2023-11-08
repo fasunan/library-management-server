@@ -65,7 +65,7 @@ async function run() {
       const options = { upsert: true };
       const updateBook = req.body;
       const bookData = {
-        $set: {         
+        $set: {
           name: updateBook.name,
           image: updateBook.image,
           authorName: updateBook.authorName,
@@ -98,6 +98,27 @@ async function run() {
 
     // borrowed books related
 
+    // // update quantity after borrowed
+    // app.put('/booksId/:id', async (req, res) => {
+    //   const id = req.params.id;
+    //   const filter = { _id: new ObjectId(id) };
+    //   const updatedQuantity = req.body.quantity;
+
+    //   const bookData = {
+    //     $set: {
+    //       quantity: updatedQuantity,
+    //     },
+    //   };
+
+    //   const result = await bookDBCollection.updateOne(filter, bookData);
+
+    //   if (result.modifiedCount > 0) {
+    //     res.send("Book quantity updated successfully");
+    //   } else {
+    //     res.status(404).send("Book not found");
+    //   }
+    // });
+
     app.post('/seeDetails', async (req, res) => {
       const borrowBook = req.body;
       console.log(borrowBook)
@@ -113,11 +134,11 @@ async function run() {
 
     app.delete('/seeDetails/:id', async (req, res) => {
       const id = req.params.id;
-      const query = { _id:new ObjectId (id) };
+      const query = { _id: new ObjectId(id) };
       const result = await BorrowedCollection.deleteOne(query);
       res.send(result);
       // console.log(result)
-     
+
     })
 
     // Send a ping to confirm a successful connection
